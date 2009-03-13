@@ -149,6 +149,7 @@ end
   # to learn how to enable ActiveRecord::Timestamp.
 
   def self.mailq(table_name)
+    puts("Mail queue:\n\n")
     klass = table_name.split('::').inject(Object) { |k,n| k.const_get n }
     emails = klass.find :all
 
