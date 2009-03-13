@@ -151,7 +151,7 @@ end
   def self.mailq(table_name)
     puts("Mail queue:\n\n")
     klass = table_name.split('::').inject(Object) { |k,n| k.const_get n }
-    emails = klass.find :all
+    emails = klass.find :all, :order => "priority ASC"
 
     if emails.empty? then
       puts "Mail queue is empty"
@@ -509,7 +509,7 @@ end
   # last 300 seconds.
 
   def find_emails
-    options = { :conditions => ['last_send_attempt < ?', Time.now.to_i - 300] }
+    options = { :conditions => ['last_send_attempt < ?', Time.now.to_i - 300], :order => "priority ASC" }
     options[:limit] = batch_size unless batch_size.nil?
     mail = @email_class.find :all, options
 
